@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="JS/inventario.js"></script>
+    <script src="JS/producto.js"></script>
+</head>
+<body>
+    <div id="CdTxt">
+     <form>
+        <label for="txtCod">Código  
+            <input type="number" id="txtCod" placeholder="-Código-">
+        </label>
+        <label for="txtName">Nombre
+            <input type="text" id="txtNom" placeholder="-Nombre-">
+        </label>
+        <label for="txtCant">Cantidad
+            <input type="number" id="txtCant" placeholder="-Cantidad-">
+        </label>
+        <label for="txtCosto">Costo
+            <input type="number" id="txtCost" placeholder="-Costo-">
+        </label>
+    </form> 
+    <button type="button" id="btnAdd">Agregar</button>
+    <button type="button" id="btnAddP">Agregar primero</button>
+    <button type="button" id="btnExPrim">Extraer primero</button>
+    <button type="button" id="btnList">Listar</button>
+    <button type="button" id="btnBuscar">Buscar</button>
+    <button type="button" id="btnEliminar">Eliminar</button>
+    <button type="button" id="btnListIn">Listar Inverso</button>
+    <div id="detalles"></div>
+    </div>
+
+    <script>
+        function agregarElementos(){
+            let codigo = Number(document.getElementById("txtCod").value);
+            let nombre = document.getElementById("txtNom").value;
+            let cantidad = document.getElementById("txtCant").value;
+            let costo = document.getElementById("txtCost").value;
+            let nuevo = new Producto(codigo, nombre, cantidad, costo);
+            return nuevo;
+        }
+    const inv = new Inventario;
+    const btnAdd = document.getElementById("btnAdd");
+    btnAdd.addEventListener("click", () =>{
+        let nuevo = agregarElementos();
+        let resultado = inv.agregar(nuevo);
+    });
+    const btnEliminar = document.getElementById("btnEliminar");
+    btnEliminar.addEventListener("click", () =>{
+        
+        let codigo = document.getElementById("txtCod").value;
+        inv.eliminar(codigo);
+        document.getElementById("detalles").innerHTML = inv.listar();
+    });
+
+    const btnExPrim = document.getElementById("btnExPrim");
+    btnExPrim.addEventListener("click", () =>{
+        let resultado = inv.extraerPrimero();
+        
+        if(resultado != null)
+            document.getElementById("detalles").innerHTML = resultado.infoHtml();
+
+    });
+
+    const btnList = document.getElementById("btnList");
+    btnList.addEventListener("click", () =>{
+        document.getElementById("detalles").innerHTML = inv.listar();
+    });
+
+    const btnBuscar = document.getElementById("btnBuscar");
+    btnBuscar.addEventListener("click", () =>{
+        let codigo = document.getElementById("txtCod").value;
+        let resultado = inv.buscar(codigo);
+        if(resultado != null)
+            document.getElementById("detalles").innerHTML = resultado.infoHtml();
+        else
+            document.getElementById("detalles").innerHTML = "No hay";
+    });
+
+    const btnListIn = document.getElementById("btnListIn");
+    btnListIn.addEventListener("click", () =>{
+        document.getElementById("detalles").innerHTML = inv.listarInverso();
+    });
+    </script>
+
+</body>
+</html>
